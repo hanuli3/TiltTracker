@@ -56,6 +56,21 @@
     <script type="text/javascript">
     //Sets the tilt score. Checks for blank or incorrect input. If correct, goes to the main page.
       var setTilt = function(){
+        var xhr = new XMLHttpRequest();
+        var url = "welcome-back.php";
+        xhr.open("POST", url, true );
+
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.setRequestHeader("Content-Length", params.length); // POST request MUST have a Content-Length header (as per HTTP/1.1)
+
+    httpc.onreadystatechange = function() { //Call a function when the state changes.
+        if(httpc.readyState == 4 && httpc.status == 200) { // complete and no errors
+            alert(httpc.responseText); // some processing here, or whatever you want to do with the response
+        }
+    };
+    httpc.send(params);
+
+
         if (document.getElementById("tiltdesc").value === ''){
           document.getElementById("tiltdesc").focus();
           document.getElementById("tiltdesc-note").innerHTML = "Please enter tilt score";

@@ -1,0 +1,14 @@
+Cookie: 
+Username
+
+Session:
+NewTilt
+
+Database:
+Time played
+Friends
+Previous and current Tilt
+
+
+XML:
+History of Tilt - Tilt per day.
