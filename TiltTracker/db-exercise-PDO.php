@@ -69,7 +69,7 @@ function selectData()
    // then use the execute() method to execute the prepared statement
 
    // Excute a SQL statement that doesn't have params
-   $query = "SELECT * FROM courses";
+   $query = "SELECT * FROM users";
    $statement = $db->prepare($query); 
    $statement->execute();
 
@@ -81,13 +81,13 @@ function selectData()
 
    foreach ($results as $result)
    {	
-      echo $result['courseID'] . ":" . $result['course_desc'] . "<br/>";
+      echo $result['username'] . ":" . $result['tilt_score'] . "<br/>";
    }
 
 
    // Execute a SQL statement that has a param, use a colon followed by a param name
    $someid = "id1";
-   $query = "SELECT * FROM courses WHERE test_id = :someid";
+   $query = "SELECT * FROM users WHERE username = :someid";
    $statement = $db->prepare($query);
    $statement->bindValue(':someid', $someid);
    $statement->execute();
@@ -100,7 +100,7 @@ function selectData()
 
    foreach ($results as $result)
    {
-      echo "select a row where courseID=id1 --->" . $result['courseID'] . ":" . $result['course_desc'] . "<br/>";
+      echo "select a row where username=id1 --->" . $result['username'] . ":" . $result['tilt_score'] . "<br/>";
    }
 
 // a SELECT statement returns a result set in the PDOStatement object 
@@ -117,13 +117,15 @@ function createTable()
 //    $query = "CREATE TABLE `web4640`.`courses` ( 
 //              `courseID` VARCHAR(8) PRIMARY KEY, 
 //              `course_desc` VARCHAR(20) NOT NULL )";
-   $query = "CREATE TABLE courses (
-             courseID VARCHAR(8) PRIMARY KEY,
-             course_desc VARCHAR(20) NOT NULL )";
+   $query = "CREATE TABLE [IF NOT EXIST] users (
+             username VARCHAR(16) PRIMARY KEY,
+             tilt_score INT NOT NULL )";
 
+    echo "create";
    $statement = $db->prepare($query);
    $statement->execute();   
    $statement->closeCursor();
+   echo " created";
 }
 ?>
 
@@ -136,7 +138,7 @@ function dropTable()
    require('connect-db.php');
 
 //    $query = "DROP TABLE `web4640`.`courses`";
-   $query = "DROP TABLE courses";
+   $query = "DROP TABLE users";
 
    $statement = $db->prepare($query);
    $statement->execute();   
@@ -151,13 +153,13 @@ function insertData()
 {
    require('connect-db.php');
    
-   $course_id = "newid_from_insertData";
-   $course_desc = "newdesc_from_insertData";
+   $users_id = "Haniism";
+   $users_score = "100";
    
-   $query = "INSERT INTO courses (courseID, course_desc) VALUES (:course_id, :course_desc)";
+   $query = "INSERT INTO users (username, tilt_score) VALUES (:users_id, :users_score)";
    $statement = $db->prepare($query);
-   $statement->bindValue(':course_id', $course_id);
-   $statement->bindValue(':course_desc', $course_desc);
+   $statement->bindValue(':users_id', $users_id);
+   $statement->bindValue(':users_score', $users_score);
    $statement->execute();
    $statement->closeCursor();
 }
@@ -171,13 +173,13 @@ function updateData()
 {
    require('connect-db.php');
    
-   $course_id = "id1";
-   $course_desc = "updated_from_updateData";
+   $users_id = "id1";
+   $users_score = "90";
     
-   $query = "UPDATE courses SET course_desc=:course_desc WHERE courseID=:course_id";
+   $query = "UPDATE users SET tilt_score=:users_score WHERE username=:users_id";
    $statement = $db->prepare($query);
-   $statement->bindValue(':course_id', $course_id);
-   $statement->bindValue(':course_desc', $course_desc);
+   $statement->bindValue(':users_id', $users_id);
+   $statement->bindValue(':users_score', $users_score);
    $statement->execute();
    $statement->closeCursor();   
 }
@@ -190,11 +192,11 @@ function deleteData()
 {
    require('connect-db.php');
 	
-   $course_id = "newid_fr";
+   $users_id = "newid_fr";
 	
-   $query = "DELETE FROM courses WHERE courseID=:id";
+   $query = "DELETE FROM users WHERE username=:id";
    $statement = $db->prepare($query);
-   $statement->bindValue(':id', $course_id);
+   $statement->bindValue(':id', $users_id);
    $statement->execute();
    $statement->closeCursor();
 }

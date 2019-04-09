@@ -11,7 +11,7 @@ session_start();
 // Set session variables
 $_SESSION["newtile"] = "green";
 $_SESSION["favanimal"] = "cat";
-echo "Session variables are set.";
+echo "Session variables are set!";
 ?>
 
 </body>
