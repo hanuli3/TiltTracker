@@ -6,6 +6,8 @@ $api = new riotapi('na1');
 $summoner_name = 'cwordsman';
 $summoner_id = $api->getSummonerID('cwordsman');
 $account_id = $api->getSummonerAccountID($summoner_name);
+$lastmatch = NULL
+$max = $lastmatch
 // $r = $api->getChampion();
 // $r = $api->getChampion(true);
 // $r = $api->getChampionMastery(23516141);
@@ -48,12 +50,23 @@ try {
     $r = $api->getMatchList($account_id);
     foreach($r['matches'] as $match){
         $match_id = $match['gameId'];
+        $match_details = $api->getMatch($match_id,false);
         //print_r($match_id);
         //echo "<br>";
         //print_r($api->getMatch($match_id,false)['participantIdentities']);
         //echo "<br>";
+
+        if($lastmatch!= NULL){
+            if ($match_details['gameCreation'] <= $lastmatch){
+                break;
+            }
+        }
+        if($match_details['gameCreation'] > $max){
+            $max = $match_details['gameCreation'];
+        }
+
         $Sum_player = NULL;
-        foreach($api->getMatch($match_id,false)['participantIdentities'] as $participant){
+        foreach($match_details['participantIdentities'] as $participant){
             //print_r($participant);
             if ($summoner_id == $participant['player']['summonerId']){
                 $Sum_player = $participant['participantId'];
@@ -62,7 +75,7 @@ try {
         //print($Sum_player);
         //echo "<br>";
         $Sum_team = NULL;
-        foreach($api->getMatch($match_id,false)['participants'] as $participant){
+        foreach($match_details['participants'] as $participant){
             //print_r($participant);
             if ($Sum_player == $participant['participantId']){
                 $Sum_team = $participant['teamId'];
@@ -71,7 +84,7 @@ try {
         //print($Sum_team);
         //echo "<br>";
         $Sum_win = NULL;
-        foreach($api->getMatch($match_id,false)['teams'] as $team){
+        foreach($match_details['teams'] as $team){
             //print_r($team);
             if ($Sum_team == $team['teamId']){
                 if($team['win'] == "Win"){
@@ -90,6 +103,7 @@ try {
             echo "<br> You've Failed!" ;
         }
     }
+    $lastmatch = $max
     /*
     $match_id = $r['matches']['0']['gameId'];
     //print_r($match_id);
