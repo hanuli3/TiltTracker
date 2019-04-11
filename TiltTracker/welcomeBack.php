@@ -15,7 +15,7 @@
   <body onload="setTimeMessage()">
     <header>
       <nav class="navbar navbar-expand-md bg-dark navbar-dark">
-        <a class="navbar-brand" href="template.html">Tilt Tracker</a>    
+        <a class="navbar-brand" href="template.php">Tilt Tracker</a>    
         
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
           <span class="navbar-toggler-icon"></span  >
@@ -30,20 +30,7 @@
               <a class="nav-link" href="friends.html">Friends</a>
             </li>
             <li class="nav-item">
-                <?php
-                session_start();
-                if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
-                    ?>
-                    <a class="nav-link" href="logout.php">Logout</a>
-                    <?php
-                }
-                else{
-                  ?>
-                    <a class="nav-link" href="login.php">Login</a>
-                <?php  
-                }
-                ?>
-              
+              <a class="nav-link" href="logout.php">Logout</a>       
             </li>            
           </ul>
         </div>  
@@ -51,7 +38,7 @@
     </header>
 
     <div class="container">
-      <h1 class = "bodyMid">Welcome Back!</h1>
+      <h1 class = "bodyMid">Welcome Back <?php session_start(); echo $_SESSION["summoner"]; ?> !</h1>
 
       <p id="timeMessage"style="text-align:center;">It's been 6 hours since you last played a game. How are you feeling now?</p>
     
