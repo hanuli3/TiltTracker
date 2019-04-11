@@ -30,8 +30,20 @@
               <a class="nav-link" href="friends.html">Friends</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link disabled" href="login.php
-              ">Login</a>
+                <?php
+                session_start();
+                if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
+                    ?>
+                    <a class="nav-link" href="logout.php">Logout</a>
+                    <?php
+                }
+                else{
+                  ?>
+                    <a class="nav-link" href="login.php">Login</a>
+                <?php  
+                }
+                ?>
+              
             </li>            
           </ul>
         </div>  

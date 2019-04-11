@@ -117,9 +117,13 @@ function createTable()
 //    $query = "CREATE TABLE `web4640`.`courses` ( 
 //              `courseID` VARCHAR(8) PRIMARY KEY, 
 //              `course_desc` VARCHAR(20) NOT NULL )";
-   $query = "CREATE TABLE courses (
-             courseID VARCHAR(8) PRIMARY KEY,
-             course_desc VARCHAR(20) NOT NULL )";
+   $query = CREATE TABLE users (
+      id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+      username VARCHAR(50) NOT NULL UNIQUE,
+      password VARCHAR(255) NOT NULL,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      summoner VARCHAR(50)
+  );
 
    $statement = $db->prepare($query);
    $statement->execute();   
