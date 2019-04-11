@@ -9,15 +9,14 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" />
     <link rel="stylesheet" href="styles/main.css">
 
-    <script src="myScripts.js"></script>
     <title>Tilt Tracker</title>
         
   </head>
 
-  <body onload="updateTilt(99)">
+  <body>
     <header>
       <nav class="navbar navbar-expand-md bg-dark navbar-dark">
-        <a class="navbar-brand" href="template.html">Tilt Tracker</a>    
+        <a class="navbar-brand" href="home.php">Tilt Tracker</a>    
         
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
           <span class="navbar-toggler-icon"></span>
@@ -26,10 +25,10 @@
         <div class="collapse navbar-collapse justify-content-end" id="collapsibleNavbar">   
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a class="nav-link" href="about.html">About</a>
+              <a class="nav-link" href="about.php">About</a>
             </li>                        
             <li class="nav-item"> 
-              <a class="nav-link" href="friends.html">Friends</a>
+              <a class="nav-link" href="friends.php">Friends</a>
             </li>
             <li class="nav-item">
                 <?php
@@ -45,30 +44,19 @@
                 <?php  
                 }
                 ?>
-            </li>           
+            </li>            
           </ul>
         </div>  
       </nav>
     </header>
 
-    <h1 class = "bodyMid">Name</h1>
+    <div class="container">
+      <h1>What is this Website?</h1><br>
 
-    <h2 class = "bodyMid">Tilt Level:</h2>
-
-    <p id = "tiltScore"></p>
-
-    <p id = "message"></p>
-
-    <div class = "wrapperCustom" style="text-align:center;">
-      <button class="buttonCustom" onclick="updateTilt(70)">Refresh</button>
+      <p>The purpose of our website is to prevent users or the user’s friends from entering games if their tilt level is too high. Tilt is synonymous with anger, rage, not thinking, and poor game performance that is not only bad for the tilted players, but also those who play with them. In a game where there is on average a 50% chance for either side to win, the chance of player being on a losing streak is not rare. Tilted players often force themselves to continue playing until they’re totally exhausted or barely manage win with an uncalm mind. Our goal is to create a clear indicator when a player should take break before they become exhausted.</p>
     </div>
-    <br>
-    <script type="text/javascript">
-      //updateMessage(70);
-    </script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
   </body>
 </html>
-            

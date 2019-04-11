@@ -16,7 +16,7 @@
   <body onload="setTimeMessage()">
     <header>
       <nav class="navbar navbar-expand-md bg-dark navbar-dark">
-        <a class="navbar-brand" href="template.html">Tilt Tracker</a>    
+        <a class="navbar-brand" href="home.php">Tilt Tracker</a>    
         
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
           <span class="navbar-toggler-icon"></span  >
@@ -25,10 +25,10 @@
         <div class="collapse navbar-collapse justify-content-end" id="collapsibleNavbar">   
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a class="nav-link" href="about.html">About</a>
+              <a class="nav-link" href="about.php">About</a>
             </li>                        
             <li class="nav-item"> 
-              <a class="nav-link" href="friends.html">Friends</a>
+              <a class="nav-link" href="friends.php">Friends</a>
             </li>
             <li class="nav-item">
               <a class="nav-link disabled" href="login.php">Login</a>
@@ -129,6 +129,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
  
 <!DOCTYPE html>
 <html lang="en">
+<!--
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
@@ -138,8 +139,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         .wrapper{ width: 350px; padding: 20px; }
     </style>
 </head>
+-->
 <body>
-    <div class="wrapper">
+    <div class="container">
         <h2>Login</h2>
         <p>Please fill in your credentials to login.</p>
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
@@ -158,10 +160,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             </div>
             <p>Don't have an account? <a href="register.php">Sign up now</a>.</p>
         </form>
-    </div>    
-
-
-
-
+    </div> 
     </body>         
 </html>

@@ -17,7 +17,7 @@
     <header>
 
       <nav class="navbar navbar-expand-md bg-dark navbar-dark">
-        <a class="navbar-brand" href="home.html">Tilt Tracker</a>    
+        <a class="navbar-brand" href="home.php">Tilt Tracker</a>    
         
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
           <span class="navbar-toggler-icon"></span>
@@ -26,25 +26,13 @@
         <div class="collapse navbar-collapse justify-content-end" id="collapsibleNavbar">   
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a class="nav-link" href="about.html">About</a>
+              <a class="nav-link" href="about.php">About</a>
             </li>                        
             <li class="nav-item"> 
-              <a class="nav-link" href="friends.html">Friends</a>
+              <a class="nav-link" href="friends.php">Friends</a>
             </li>
             <li class="nav-item">
-                <?php
-                session_start();
-                if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
-                    ?>
-                    <a class="nav-link" href="logout.php">Logout</a>
-                    <?php
-                }
-                else{
-                  ?>
-                    <a class="nav-link" href="login.php">Login</a>
-                <?php  
-                }
-                ?>
+              <a class="nav-link" href="logout.php">Logout</a>
             </li>           
           </ul>
         </div>  
@@ -85,4 +73,10 @@
   </body>
 </html>
           
-            
+<?php
+session_start();
+if(!isset($_SESSION["loggedin"])){
+  header("location: login.php");
+  exit;
+}
+?>       
