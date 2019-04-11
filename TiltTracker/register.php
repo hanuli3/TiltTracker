@@ -63,7 +63,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
         // Validate summoner
         if(empty(trim($_POST["summoner"]))){
-            $username_err = "Please enter a summoner name.";
+            $summoner_err = "Please enter a summoner name.";
         } else{
             // Prepare a select statement
             $sql = "SELECT id FROM users WHERE summoner = ?";
