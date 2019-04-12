@@ -104,7 +104,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             $_SESSION["summoner"] = $summoner;  
                             $cookie_name = "summoner";
                             $cookie_value = $summoner;
-                            setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); // 86400 = 1 day                          
+                            setcookie($cookie_name, $cookie_value, time() + (3600), "/"); // 86400 = 1 day                          
                             
                             // Redirect user to welcome page
                             header("location: welcomeBack.php");

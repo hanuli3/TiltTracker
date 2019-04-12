@@ -38,7 +38,7 @@
     </header>
 
     <div class="container">
-      <h1 class = "bodyMid">Welcome Back <?php session_start(); echo $_SESSION["summoner"]; ?> !</h1>
+      <h1 class = "bodyMid">Welcome Back <?php if(isset($_COOKIE["summoner"])) {echo $_COOKIE["summoner"];} else {header("location: logout.php");}?> !</h1>
 
       <p id="timeMessage"style="text-align:center;">It's been 6 hours since you last played a game. How are you feeling now?</p>
     
