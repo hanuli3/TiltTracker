@@ -16,6 +16,7 @@ function updateMessage(score){
 
 //This method updates the tilt score on the main page.
 function updateTilt(value){
+  
 	document.getElementById("tiltScore").innerHTML = value;
   updateMessage(value);
 }

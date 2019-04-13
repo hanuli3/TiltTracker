@@ -1,4 +1,13 @@
 <!-- Hans Li and David Xue -->
+<?php
+session_start();
+if(!isset($_SESSION["loggedin"])){
+  header("location: login.php");
+  exit;
+}
+require_once "config.php"; 
+include("riot-methods.php");
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -14,7 +23,7 @@
         
   </head>
 
-  <body onload="updateTilt(99)">
+  <body onload="updateMessage(<?php $sql = "SELECT tilt FROM users WHERE summoner='$summoner_name' "; $result = $link->query($sql); echo $result->fetch_assoc()["tilt"];?>)">
     <header>
       <nav class="navbar navbar-expand-md bg-dark navbar-dark">
         <a class="navbar-brand" href="home.php">Tilt Tracker</a> 
@@ -38,17 +47,22 @@
       </nav>
     </header>
 
-    <h1 class = "bodyMid">Name</h1>
+    <h1 class = "bodyMid"><?php echo $_SESSION["summoner"]?></h1>
 
     <h2 class = "bodyMid">Tilt Level:</h2>
 
-    <p id = "tiltScore"></p>
+    <p id = "tiltScore"><?php $sql = "SELECT tilt FROM users WHERE summoner='$summoner_name' "; $result = $link->query($sql); echo $result->fetch_assoc()["tilt"];?></p>
 
     <p id = "message"></p>
 
-    <div class = "wrapperCustom" style="text-align:center;">
-      <button class="buttonCustom" onclick="updateTilt(70)">Refresh</button>
-    </div>
+    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" style="text-align:center;">
+            <div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
+                <input hidden name="updatetilt">
+            </div>    
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary" value="Refresh">
+            </div>
+      </form>
     <br>
     <script type="text/javascript">
       //updateMessage(70);
@@ -60,11 +74,5 @@
 </html>
 
 
-<?php
-session_start();
-if(!isset($_SESSION["loggedin"])){
-  header("location: login.php");
-  exit;
-}
-?>
+
             

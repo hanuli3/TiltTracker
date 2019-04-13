@@ -1,13 +1,24 @@
 <?php
 include('php-riot-api.php');
+require_once "config.php";
 //testing classes
 //using double quotes seems to make all names work (see issue: https://github.com/kevinohashi/php-riot-api/issues/33)
+if(!isset($_COOKIE["summoner"])) 
+{header("location: logout.php");}
 $api = new riotapi('na1');
-$summoner_name = 'cwordsman';
-$summoner_id = $api->getSummonerID('cwordsman');
+$summoner_name = $_COOKIE["summoner"];
+$summoner_id = $api->getSummonerID($summoner_name);
 $account_id = $api->getSummonerAccountID($summoner_name);
-$lastmatch = NULL
-$max = $lastmatch
+$sql = "SELECT lastgametime FROM users WHERE summoner='$summoner_name' ";
+$result = $link->query($sql);
+$lastmatchtime = $result->fetch_assoc()["lastgametime"];
+$max = $lastmatchtime;
+
+$sql = "SELECT tilt FROM users WHERE summoner='$summoner_name' ";
+$result = $link->query($sql);
+$tilt = $result->fetch_assoc()["tilt"];
+//echo "this is the result".$result->fetch_assoc()["lastgametime"];
+
 // $r = $api->getChampion();
 // $r = $api->getChampion(true);
 // $r = $api->getChampionMastery(23516141);
@@ -46,9 +57,26 @@ try {
 };
 echo "<br>";
 */
+
+    if( isset($_POST["settilt"]) ) {
+        $tilt = $_POST["settilt"];
+        $sql = "UPDATE users SET tilt=$tilt WHERE summoner = '$summoner_name' ";
+        $link->query($sql);
+        header("location:home.php");
+    }
+    if( isset($_POST["updatetilt"]) ) {
 try {
     $r = $api->getMatchList($account_id);
+    $netimprovement = 0;
+    $count = 0;
+    $increment = $_SESSION["increment"];
     foreach($r['matches'] as $match){
+        $count += $increment;
+        $increment += 1;
+        if($count > 9){
+            break;
+        }
+
         $match_id = $match['gameId'];
         $match_details = $api->getMatch($match_id,false);
         //print_r($match_id);
@@ -56,8 +84,9 @@ try {
         //print_r($api->getMatch($match_id,false)['participantIdentities']);
         //echo "<br>";
 
-        if($lastmatch!= NULL){
-            if ($match_details['gameCreation'] <= $lastmatch){
+        if($lastmatchtime!= NULL){
+            if ($match_details['gameCreation'] <= $lastmatchtime){ 
+            echo "no new data";
                 break;
             }
         }
@@ -98,12 +127,27 @@ try {
         }
         if($Sum_win){
             echo "<br> You've Won!" ;
+            $netimprovement -= $increment;
         }
         else{
             echo "<br> You've Failed!" ;
+            $netimprovement += $increment;
         }
     }
-    $lastmatch = $max
+    $change = $tilt + $netimprovement;
+    if ($change > 100){
+        $change = 100;
+    }
+    if ($change < 0 ){
+        $change = 0;
+    }
+    $_SESSION["increment"] = $increment;
+    $sql = "UPDATE users SET tilt=$change WHERE summoner = '$summoner_name' ";
+    $link->query($sql);
+
+    $sql = "UPDATE users SET lastgametime=$max WHERE summoner = '$summoner_name' ";
+    $link->query($sql);
+
     /*
     $match_id = $r['matches']['0']['gameId'];
     //print_r($match_id);
@@ -154,5 +198,5 @@ try {
 } catch(Exception $e) {
     echo "Error: " . $e->getMessage();
 };
-
+}
 ?>

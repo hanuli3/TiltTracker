@@ -101,7 +101,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             $_SESSION["loggedin"] = true;
                             $_SESSION["id"] = $id;
                             $_SESSION["username"] = $username;
-                            $_SESSION["summoner"] = $summoner;  
+                            $_SESSION["summoner"] = $summoner;
+                            $_SESSION["increment"] = 1;  
                             $cookie_name = "summoner";
                             $cookie_value = $summoner;
                             setcookie($cookie_name, $cookie_value, time() + (3600), "/"); // 86400 = 1 day                          

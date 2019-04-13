@@ -1,4 +1,5 @@
 <!-- Hans Li and David Xue -->
+<?php session_start(); require_once "config.php"; include("riot-methods.php")?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -42,16 +43,15 @@
 
       <p id="timeMessage"style="text-align:center;">It's been 6 hours since you last played a game. How are you feeling now?</p>
     
-      <div class="form-group" style="text-align:center;">
-        <label for="tiltdesc">Previous Tilt Level: 100</label>
-        <input style="width:270px; margin: 0 auto;" type="number" min ="1" max="100" id="tiltdesc" class="form-control" name="desc" placeholder = "Please Enter a Number 1 to 100"/>
-        <span class="error" id="tiltdesc-note"></span>
-      </div>
-
-      <div class = "wrapperCustom" style="text-align:center;">
-         <button class="buttonCustom" text-align="center" onclick="setTilt()">Set Tilt Level</button>
-      </div>
-    </div>
+      <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" style="text-align:center;">
+            <div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
+                <label>Previous Tilt Level: <?php $sql = "SELECT tilt FROM users WHERE summoner='$summoner_name' "; $result = $link->query($sql); echo $result->fetch_assoc()["tilt"];?> </label>
+                <input style="width:270px; margin: 0 auto;" type="number" min ="0" max="100" class="form-control" name="settilt" placeholder = "Please Enter a Number 0 to 100">
+            </div>    
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary" value="Set Tilt Level">
+            </div>
+      </form>
 
     <script type="text/javascript">
     //Sets the tilt score. Checks for blank or incorrect input. If correct, goes to the main page.
