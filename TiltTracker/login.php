@@ -38,6 +38,9 @@
       </nav>
     </header>
     <?php
+
+// original source: https://daveismyname.blog/login-and-registration-system-with-php
+
 // Initialize the session
 session_start();
  

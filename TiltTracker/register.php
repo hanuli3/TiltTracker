@@ -1,7 +1,10 @@
 <?php
 // Include config file
 require_once "config.php";
+include("riot-methods.php");
  
+// original source: https://daveismyname.blog/login-and-registration-system-with-php
+
 // Define variables and initialize with empty values
 $username = $password = $confirm_password = $summoner = "";
 $username_err = $password_err = $confirm_password_err = $summoner_err = "";
@@ -65,29 +68,29 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         if(empty(trim($_POST["summoner"]))){
             $summoner_err = "Please enter a summoner name.";
         } else{
+            if(valid_summoner(trim($_POST["summoner"]))){
             // Prepare a select statement
-            $sql = "SELECT id FROM users WHERE summoner = ?";
+                $sql = "SELECT id FROM users WHERE summoner = ?";
             
-            if($stmt = mysqli_prepare($link, $sql)){
-                // Bind variables to the prepared statement as parameters
-                mysqli_stmt_bind_param($stmt, "s", $param_summoner);
+                if($stmt = mysqli_prepare($link, $sql)){
+                    // Bind variables to the prepared statement as parameters
+                    mysqli_stmt_bind_param($stmt, "s", $param_summoner);
                 
-                // Set parameters
-                $param_summoner = trim($_POST["summoner"]);
+                    // Set parameters
+                    $param_summoner = trim($_POST["summoner"]);
                 
-                // Attempt to execute the prepared statement
-                if(mysqli_stmt_execute($stmt)){
-                    /* store result */
-                    mysqli_stmt_store_result($stmt);
-                    
-                    if(mysqli_stmt_num_rows($stmt) == 1){
-                        $summoner_err = "This summoner name is already taken.";
+                    // Attempt to execute the prepared statement
+                    if(mysqli_stmt_execute($stmt)){
+                        /* store result */
+                        mysqli_stmt_store_result($stmt);
+                        $summoner = trim($_POST["summoner"]);                        
                     } else{
-                        $summoner = trim($_POST["summoner"]);
+                        echo "Oops! Something went wrong. Please try again later.";
                     }
-                } else{
-                    echo "Oops! Something went wrong. Please try again later.";
                 }
+            }
+            else{
+                $summoner_err = "This summoner name is invalid.";
             }
              
             // Close statement
@@ -117,11 +120,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 echo "Something went wrong. Please try again later.";
             }
         }
-         
         // Close statement
         mysqli_stmt_close($stmt);
     }
-    
+    //add_summoner($summoner);
+    $sql = "INSERT INTO summoners (summoner) 
+        VALUES ('$summoner')";
+        $link->query($sql);
     // Close connection
     mysqli_close($link);
 }

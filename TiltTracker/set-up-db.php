@@ -113,20 +113,26 @@ function selectData()
 function createTable()
 {
    require('connect-db.php');
-
-//    $query = "CREATE TABLE `web4640`.`courses` ( 
-//              `courseID` VARCHAR(8) PRIMARY KEY, 
-//              `course_desc` VARCHAR(20) NOT NULL )";
    $query = CREATE TABLE users (
       id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
       username VARCHAR(50) NOT NULL UNIQUE,
       password VARCHAR(255) NOT NULL,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-      summoner VARCHAR(50)
-      tilt INT
-  );
+      summoner VARCHAR(50),
+   );
+
 
     echo "create";
+   $statement = $db->prepare($query);
+   $statement->execute();   
+   $statement->closeCursor();
+
+   $query = CREATE TABLE summoners (
+      summoner VARCHAR(50) NOT NULL UNIQUE,
+      tilt INT,
+      lastgametime BIGINT
+   );
+   
    $statement = $db->prepare($query);
    $statement->execute();   
    $statement->closeCursor();

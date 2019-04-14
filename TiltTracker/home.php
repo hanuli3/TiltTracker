@@ -3,7 +3,12 @@
 session_start();
 if(!isset($_SESSION["loggedin"])){
   header("location: login.php");
-  exit;
+}
+if(!isset($_COOKIE["summoner"])){
+  echo '<script language="javascript">';
+  echo 'alert("Cookie has expired, Please login again.")';
+  echo '</script>';
+  header("location:login.php");
 }
 require_once "config.php"; 
 include("riot-methods.php");
@@ -23,7 +28,7 @@ include("riot-methods.php");
         
   </head>
 
-  <body onload="updateMessage(<?php $sql = "SELECT tilt FROM users WHERE summoner='$summoner_name' "; $result = $link->query($sql); echo $result->fetch_assoc()["tilt"];?>)">
+  <body onload="updateMessage(<?php $sql = "SELECT tilt FROM summoners WHERE summoner='$summoner_name'"; $result = $link->query($sql); echo $result->fetch_assoc()["tilt"];?>)">
     <header>
       <nav class="navbar navbar-expand-md bg-dark navbar-dark">
         <a class="navbar-brand" href="home.php">Tilt Tracker</a> 
@@ -51,13 +56,13 @@ include("riot-methods.php");
 
     <h2 class = "bodyMid">Tilt Level:</h2>
 
-    <p id = "tiltScore"><?php $sql = "SELECT tilt FROM users WHERE summoner='$summoner_name' "; $result = $link->query($sql); echo $result->fetch_assoc()["tilt"];?></p>
+    <p id = "tiltScore"><?php $summoner_name = $_COOKIE['summoner']; $sql = "SELECT tilt FROM summoners WHERE summoner='$summoner_name' "; $result = $link->query($sql); echo $result->fetch_assoc()["tilt"];?></p>
 
     <p id = "message"></p>
 
-    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" style="text-align:center;">
-            <div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
-                <input hidden name="updatetilt">
+    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="get" style="text-align:center;">
+            <div class="form-group">
+                <input hidden name="refresh" value = "true">
             </div>    
             <div class="form-group">
                 <input type="submit" class="btn btn-primary" value="Refresh">

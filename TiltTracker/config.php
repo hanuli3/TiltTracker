@@ -1,4 +1,6 @@
 <?php
+
+   // original source: https://daveismyname.blog/login-and-registration-system-with-php
    define('DB_SERVER', 'localhost');
    define('DB_USERNAME', 'admin');
    define('DB_PASSWORD', 'password');

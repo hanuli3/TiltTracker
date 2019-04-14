@@ -1,5 +1,18 @@
 <!-- Hans Li and David Xue -->
-<?php session_start(); require_once "config.php"; include("riot-methods.php")?>
+<?php
+session_start();
+if(!isset($_SESSION["loggedin"])){
+  header("location: login.php");
+}
+if(!isset($_COOKIE["summoner"])){
+  echo '<script language="javascript">';
+  echo 'alert("Cookie has expired, Please login again.")';
+  echo '</script>';
+  header("location:login.php");
+}
+require_once "config.php"; 
+include("riot-methods.php");
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -41,11 +54,11 @@
     <div class="container">
       <h1 class = "bodyMid">Welcome Back <?php if(isset($_COOKIE["summoner"])) {echo $_COOKIE["summoner"];} else {header("location: logout.php");}?> !</h1>
 
-      <p id="timeMessage"style="text-align:center;">It's been 6 hours since you last played a game. How are you feeling now?</p>
+      <p id="timeMessage"style="text-align:center;">It's been over 6 hours since you last played a game. How are you feeling now?</p>
     
       <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" style="text-align:center;">
             <div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
-                <label>Previous Tilt Level: <?php $sql = "SELECT tilt FROM users WHERE summoner='$summoner_name' "; $result = $link->query($sql); echo $result->fetch_assoc()["tilt"];?> </label>
+                <label>Previous Tilt Level: <?php $sql = "SELECT tilt FROM summoners WHERE summoner='$summoner_name' "; $result = $link->query($sql); echo $result->fetch_assoc()["tilt"];?> </label>
                 <input style="width:270px; margin: 0 auto;" type="number" min ="0" max="100" class="form-control" name="settilt" placeholder = "Please Enter a Number 0 to 100">
             </div>    
             <div class="form-group">
@@ -69,7 +82,6 @@
         }
     };
     httpc.send(params);
-
 
         if (document.getElementById("tiltdesc").value === ''){
           document.getElementById("tiltdesc").focus();

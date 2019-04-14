@@ -1,4 +1,19 @@
 <!-- Hans Li and David Xue -->
+<?php
+session_start();
+if(!isset($_SESSION["loggedin"])){
+  header("location: login.php");
+}
+if(!isset($_COOKIE["summoner"])){
+  echo '<script language="javascript">';
+  echo 'alert("Cookie has expired, Please login again.")';
+  echo '</script>';
+  header("location:login.php");
+}
+require_once "config.php"; 
+include("riot-methods.php");
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -71,12 +86,4 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
   </body>
-</html>
-          
-<?php
-session_start();
-if(!isset($_SESSION["loggedin"])){
-  header("location: login.php");
-  exit;
-}
-?>       
+</html>  
