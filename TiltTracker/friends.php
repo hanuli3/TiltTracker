@@ -28,7 +28,7 @@ include("riot-methods.php");
         
   </head>
   <script src="myScripts.js"></script>
-  <body>
+  <body onload="showfriends()">
     <header>
 
       <nav class="navbar navbar-expand-md bg-dark navbar-dark">
@@ -57,15 +57,22 @@ include("riot-methods.php");
   <div class="container">
     <h1>My Friends</h1>
   
-    <form name="mainform" >
+    <form name="mainform" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" >
       <div class="form-group">
         <label for="taskdesc">Summoner Name</label>
-        <input style="width:30%;" type="text" id="taskdesc" class="form-control" name="desc" />
+        <input style="width:30%;" type="text" id="taskdesc" class="form-control" name="friend" />
         <span class="error" id="taskdesc-note"></span>
       </div>        
-      <input type="button" class="btn btn-light" id="add" value="Add Friend" onclick="addRow()"/> 
+      <input type="submit" class="btn btn-light" id="add" value="Add Friend" onclick="showfriends()"/> 
     </form>
-
+    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="get"">
+            <div class="form-group">
+                <input hidden name="refreshfriends" value = "true">
+            </div>    
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary">
+            </div>
+    </form> 
     <br/>
       
     <div id="todo">
@@ -78,12 +85,46 @@ include("riot-methods.php");
             <th>Remove Friend</th>
           </tr> 
         </thead>      
-        <!-- JS will dynamically create add new row upon form submission -->      
-      </table> 
+        <?php 
+    $result = getFriendsArray($_COOKIE["summoner"]);
+    if (sizeof($result) > 0){
+      foreach ($result as $friend){
+        if($friend != ""){
+          $ftilt = getTilt($friend);
+          echo "<tr><td>" . $friend. "</td><td>" . $ftilt . "</td><td> Tilted! </td><td> <input type=button value=' X ' onClick='delRow()'></td></tr>";
+        }
+      }
+      echo "</table>";
+    }
+  else{
+    echo "no friends :(";
+  }
+  ?>      
     </div>
   </div>
 
+
+
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+  <script>
+  function checkInput(){
+  var desc = document.getElementById("taskdesc").value;
+   if (desc === '')    // check if appropriate data are entered
+     {
+     	document.getElementById("taskdesc").focus();
+     	document.getElementById("taskdesc-note").innerHTML = "Please enter summoner name";
+     } 
+  }
+
+//Removes friend from friend list and gives a warning before removing
+function delRow()
+{
+  // since deletion action is unrecoverable, add hesitation to minimize/avoid user error 
+  if (confirm("Press OK to delete. This action is unrecoverable.") == true)   
+  	document.getElementById("todoTable").deleteRow(document.getElementById("todoTable").clickedRowIndex);
+}
+
+  </script>
   </body>
 </html>  

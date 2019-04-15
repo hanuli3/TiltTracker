@@ -3,28 +3,103 @@ include('php-riot-api.php');
 require_once "config.php";
 //testing classes
 //using double quotes seems to make all names work (see issue: https://github.com/kevinohashi/php-riot-api/issues/33)
+if(isset($_COOKIE["summoner"])) {
+    $summoner_name = $_COOKIE["summoner"];
+}
+else{
+    echo '<script language="javascript">';
+    echo 'alert("Cookie has expired, Please login again.")';
+    echo '</script>';
+    header("location:login.php");
+}
+
+if( isset($_POST["settilt"]) ) {
+    $summoner_name = $_COOKIE["summoner"];         
+    $tilt = $_POST["settilt"];
+    $sql = "UPDATE summoners SET tilt=$tilt WHERE summoner = '$summoner_name' ";
+    $link->query($sql);
+    header("location:home.php");
+    }
+
+if( isset($_GET["refresh"]) ) {
+    updateTilt($_COOKIE["summoner"]);
+}
+
+if( isset($_POST["friend"]) ) {
+    addFriend($_POST["friend"]);
+}
+
+function getTilt($summoner_name){
+    if (!(in_summoners($summoner_name))){
+        add_summoner($summoner_name);
+        last_match_time($summoner_name);
+        updateTilt($summoner_name);
+    }
+    $link = mysqli_connect(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
+    $sql =  "SELECT tilt FROM summoners WHERE summoner='$summoner_name' ";
+    $result = $link -> query($sql);
+    return $result -> fetch_assoc()["tilt"];
+
+}
+
+function addFriend($summoner_name){
+    $owner = $_COOKIE["summoner"];
+    if(valid_summoner($summoner_name)){
+        $farray = getFriendsArray($owner);
+        if (in_array($summoner_name, $farray))
+        {
+            echo "already added";
+            return false;
+        }
+        else{
+            echo "adding friend";
+            $updatefriends = "";
+            foreach ($farray as $friend){
+                $updatefriends = $updatefriends."-".$friend;
+            }
+            $link = mysqli_connect(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
+            $updatefriends = $updatefriends."-".$summoner_name;
+            $updatefriends = trim($updatefriends);
+            $updatefriends = trim($updatefriends, "-");
+            $sql = "UPDATE users SET friends='$updatefriends' WHERE summoner = '$owner' ";
+            $link->query($sql);
+            return false;
+        }
+    }
+    return false;
+}
+
+function getFriendsArray($summoner_name){
+    if(valid_summoner($summoner_name)){
+        $link = mysqli_connect(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
+        $sql =  "SELECT friends FROM users WHERE summoner='$summoner_name' ";
+        $result = $link -> query($sql);
+        $fstring = $result -> fetch_assoc()["friends"];
+        $farray = explode("-", $fstring);
+        return $farray;
+    }
+    return;
+}
+
 function in_summoners($summoner_name){
     if(valid_summoner($summoner_name)){
         $link = mysqli_connect(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
         $sql =  "SELECT summoner_name FROM summoners WHERE summoner='$summoner_name' ";
         $result = $link -> query($sql);
-        if ($result -> fetch_assoc() == NULL){
-            echo "not in summoners";
+        if ($result == null){
             return false;
         }
     }
-    echo "in summoners";
     return true;
 }
 
 function add_summoner($summoner_name){
-    //if(!(in_summoners($summoner_name))){
+    if(!(in_summoners($summoner_name))){
         $link = mysqli_connect(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
         $sql = "INSERT INTO summoners (summoner) 
         VALUES ('$summoner_name')";
         $link->query($sql);
-        echo "inserted into summoners";
-    //}
+    }
 }
 function valid_summoner($summoner_name){
     try
@@ -46,6 +121,11 @@ function last_match_time($summoner_name){
     $lastmatchtime = $result->fetch_assoc()["lastgametime"];
     if ($lastmatchtime == NULL){
         $lastmatchtime = 0;
+    }
+    if (time()-21600 > $lastmatchtime){
+        $newtime = time()-21600;
+        $sql = "Update summoners SET lastgametime=$newtime WHERE summoner='$summoner_name' ";
+        $lastmatchtime = $newtime;
     }
     return $lastmatchtime;
 }
@@ -87,7 +167,6 @@ function updateTilt($summoner_name){
         
                 if($lastmatchtime!= NULL){
                     if ($match_details['gameCreation'] <= $lastmatchtime){ 
-                    echo "no new data";
                         break;
                     }
                 }
@@ -127,11 +206,9 @@ function updateTilt($summoner_name){
                     }
                 }
                 if($Sum_win){
-                    echo "<br> You've Won!" ;
                     $netimprovement -= $increment;
                 }
                 else{
-                    echo "<br> You've Failed!" ;
                     $netimprovement += $increment;
                 }
             }
@@ -154,32 +231,7 @@ function updateTilt($summoner_name){
         };
     }
 }
-    if( isset($_POST["settilt"]) ) {
-        if(isset($_COOKIE["summoner"])) 
-        {
-        $tilt = $_POST["settilt"];
-        $sql = "UPDATE users SET tilt=$tilt WHERE summoner = '$summoner_name' ";
-        $link->query($sql);
-        header("location:home.php");
-        }
-        else{
-            echo '<script language="javascript">';
-            echo 'alert("Cookie has expired, Please login again.")';
-            echo '</script>';
-            header("location:login.php");
-        }
-    }
 
-    if( isset($_GET["refresh"]) ) {
-        if(isset($_COOKIE["summoner"])){
-            updateTilt($_COOKIE["summoner"]);
-        }
-        else{
-            echo '<script language="javascript">';
-            echo 'alert("Cookie has expired, Please login again.")';
-            echo '</script>';
-            header("location:login.php");
-        }
-    }
+    
 
 ?>

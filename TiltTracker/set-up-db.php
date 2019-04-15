@@ -119,6 +119,7 @@ function createTable()
       password VARCHAR(255) NOT NULL,
       created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
       summoner VARCHAR(50),
+      friends LONGTEXT
    );
 
 

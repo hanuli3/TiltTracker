@@ -4,12 +4,6 @@ session_start();
 if(!isset($_SESSION["loggedin"])){
   header("location: login.php");
 }
-if(!isset($_COOKIE["summoner"])){
-  echo '<script language="javascript">';
-  echo 'alert("Cookie has expired, Please login again.")';
-  echo '</script>';
-  header("location:login.php");
-}
 require_once "config.php"; 
 include("riot-methods.php");
 ?>
@@ -56,7 +50,7 @@ include("riot-methods.php");
 
     <h2 class = "bodyMid">Tilt Level:</h2>
 
-    <p id = "tiltScore"><?php $summoner_name = $_COOKIE['summoner']; $sql = "SELECT tilt FROM summoners WHERE summoner='$summoner_name' "; $result = $link->query($sql); echo $result->fetch_assoc()["tilt"];?></p>
+    <p id = "tiltScore"><?php $sql = "SELECT tilt FROM summoners WHERE summoner='$summoner_name' "; $result = $link->query($sql); echo $result->fetch_assoc()["tilt"];?></p>
 
     <p id = "message"></p>
 
@@ -67,7 +61,7 @@ include("riot-methods.php");
             <div class="form-group">
                 <input type="submit" class="btn btn-primary" value="Refresh">
             </div>
-      </form>
+    </form>
     <br>
     <script type="text/javascript">
       //updateMessage(70);
