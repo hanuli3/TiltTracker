@@ -6,12 +6,14 @@ require_once "config.php";
 if(isset($_COOKIE["summoner"])) {
     $summoner_name = $_COOKIE["summoner"];
 }
+/*
 else{
     echo '<script language="javascript">';
     echo 'alert("Cookie has expired, Please login again.")';
     echo '</script>';
     header("location:login.php");
 }
+*/
 
 if( isset($_POST["settilt"]) ) {
     $summoner_name = $_COOKIE["summoner"];         
@@ -52,7 +54,7 @@ function addFriend($summoner_name){
             return false;
         }
         else{
-            echo "adding friend";
+            echo "friend has been added!";
             $updatefriends = "";
             foreach ($farray as $friend){
                 $updatefriends = $updatefriends."-".$friend;
@@ -131,6 +133,7 @@ function last_match_time($summoner_name){
 }
 
 function updateTilt($summoner_name){
+    echo "tilt has been update";
     if(isset($_COOKIE["summoner"])) 
     {
         $link = mysqli_connect(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
