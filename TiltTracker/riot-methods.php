@@ -6,13 +6,14 @@ require_once "config.php";
 if(isset($_COOKIE["summoner"])) {
     $summoner_name = $_COOKIE["summoner"];
 }
+/*
 else{
     echo '<script language="javascript">';
     echo 'alert("Cookie has expired, Please login again.")';
     echo '</script>';
     header("location:login.php");
 }
-
+*/
 if( isset($_POST["settilt"]) ) {
     $summoner_name = $_COOKIE["summoner"];         
     $tilt = $_POST["settilt"];
@@ -29,6 +30,18 @@ if( isset($_POST["friend"]) ) {
     addFriend($_POST["friend"]);
 }
 
+if( isset($_POST["deleteFriend"]) ) {
+    deleteFriend($_POST["deleteFriend"]);
+}
+
+if( isset($_GET["refreshfriends"]) ) {
+    $farray = getFriendsArray($summoner_name);
+    foreach ($farray as $friend){
+        echo "updating ".$friend;
+        updateTilt($friend);
+    }
+}
+
 function getTilt($summoner_name){
     if (!(in_summoners($summoner_name))){
         add_summoner($summoner_name);
@@ -42,11 +55,11 @@ function getTilt($summoner_name){
 
 }
 
-function addFriend($summoner_name){
+function addFriend($friend_name){
     $owner = $_COOKIE["summoner"];
-    if(valid_summoner($summoner_name)){
+    if(valid_summoner($friend_name)){
         $farray = getFriendsArray($owner);
-        if (in_array($summoner_name, $farray))
+        if (in_array($friend_name, $farray))
         {
             echo "already added";
             return false;
@@ -58,16 +71,43 @@ function addFriend($summoner_name){
                 $updatefriends = $updatefriends."-".$friend;
             }
             $link = mysqli_connect(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
-            $updatefriends = $updatefriends."-".$summoner_name;
+            $updatefriends = $updatefriends."-".$friend_name;
             $updatefriends = trim($updatefriends);
             $updatefriends = trim($updatefriends, "-");
             $sql = "UPDATE users SET friends='$updatefriends' WHERE summoner = '$owner' ";
             $link->query($sql);
-            return false;
+            return true;
         }
     }
     return false;
 }
+
+function deleteFriend($friend_name){
+    $owner = $_COOKIE["summoner"];
+        $farray = getFriendsArray($owner);
+        if (in_array($friend_name, $farray))
+        {
+            echo " deleted friend ";
+            $updatefriends = "";
+            foreach ($farray as $friend){
+                if($friend != $friend_name){
+                    $updatefriends = $updatefriends."-".$friend;
+                }
+            }
+            $link = mysqli_connect(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
+            $updatefriends = trim($updatefriends);
+            $updatefriends = trim($updatefriends, "-");
+            $sql = "UPDATE users SET friends='$updatefriends' WHERE summoner = '$owner' ";
+            $link->query($sql);
+            return true;
+        }
+        else{
+            echo "not in friends list";
+            return false;
+        }
+    return false;
+}
+
 
 function getFriendsArray($summoner_name){
     if(valid_summoner($summoner_name)){
@@ -130,12 +170,13 @@ function last_match_time($summoner_name){
     return $lastmatchtime;
 }
 
-function updateTilt($summoner_name){
+function updateTilt($summoner){
     if(isset($_COOKIE["summoner"])) 
     {
+        //echo "in update tilt with ". $summoner;
         $link = mysqli_connect(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
         $api = new riotapi('na1');
-        $summoner_name = $_COOKIE["summoner"];
+        $summoner_name = $summoner;
         $summoner_id = $api->getSummonerID($summoner_name);
         $account_id = $api->getSummonerAccountID($summoner_name);
         $lastmatchtime = last_match_time($summoner_name);
@@ -152,9 +193,10 @@ function updateTilt($summoner_name){
             $count = 0;
             $increment = $_SESSION["increment"];
             foreach($r['matches'] as $match){
-                $count += $increment;
+                $count += 1;
                 $increment += 1;
                 if($count > 9){
+                    //echo"more than 9 matches";
                     break;
                 }
         
@@ -167,6 +209,7 @@ function updateTilt($summoner_name){
         
                 if($lastmatchtime!= NULL){
                     if ($match_details['gameCreation'] <= $lastmatchtime){ 
+                        //echo" out of new games ";
                         break;
                     }
                 }
@@ -206,10 +249,12 @@ function updateTilt($summoner_name){
                     }
                 }
                 if($Sum_win){
-                    $netimprovement -= $increment;
+                    //echo "Win";
+                    $netimprovement -= 1;
                 }
                 else{
-                    $netimprovement += $increment;
+                    //echo "Loss";
+                    $netimprovement += 1;
                 }
             }
             $change = $tilt + $netimprovement;

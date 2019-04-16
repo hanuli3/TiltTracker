@@ -63,14 +63,14 @@ include("riot-methods.php");
         <input style="width:30%;" type="text" id="taskdesc" class="form-control" name="friend" />
         <span class="error" id="taskdesc-note"></span>
       </div>        
-      <input type="submit" class="btn btn-light" id="add" value="Add Friend" onclick="showfriends()"/> 
+      <input type="submit" class="btn btn-light" id="add" value="Add Friend"/> 
     </form>
-    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="get"">
+    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="get">
             <div class="form-group">
                 <input hidden name="refreshfriends" value = "true">
             </div>    
             <div class="form-group">
-                <input type="submit" class="btn btn-primary">
+                <input type="submit" class="btn btn-primary" value="Update Friends">
             </div>
     </form> 
     <br/>
@@ -91,7 +91,10 @@ include("riot-methods.php");
       foreach ($result as $friend){
         if($friend != ""){
           $ftilt = getTilt($friend);
-          echo "<tr><td>" . $friend. "</td><td>" . $ftilt . "</td><td> Tilted! </td><td> <input type=button value=' X ' onClick='delRow()'></td></tr>";
+          echo "<tr><td>" . $friend. "</td><td>" . $ftilt . "</td><td> Tilted! </td><td> 
+          <form method='post' action='friends.php'>
+          <input hidden type='text' name='deleteFriend' value='".$friend."'><input type='submit' value='X'>
+          </form></td></tr>";
         }
       }
       echo "</table>";

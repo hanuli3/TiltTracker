@@ -63,6 +63,27 @@ include("riot-methods.php");
             </div>
     </form>
     <br>
+    <div style="text-align:center;">
+    <button type="button" onclick="loadXMLDoc()" style="text-align:center;">Should I keep playing?</button>
+</div>
+<p id="demo" style="text-align:center;" ></p>
+
+<script>
+function loadXMLDoc() {
+  var xmlhttp;
+  xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("demo").innerHTML =
+      this.responseText;
+    }
+  };
+  xmlhttp.open("GET", "advice.txt", true);
+  xmlhttp.send();
+}
+</script>
+
+
     <script type="text/javascript">
       //updateMessage(70);
     </script>
