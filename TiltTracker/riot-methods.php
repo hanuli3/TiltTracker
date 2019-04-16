@@ -65,7 +65,7 @@ function addFriend($friend_name){
             return false;
         }
         else{
-            echo "adding friend";
+            echo "friend has been added!";
             $updatefriends = "";
             foreach ($farray as $friend){
                 $updatefriends = $updatefriends."-".$friend;
