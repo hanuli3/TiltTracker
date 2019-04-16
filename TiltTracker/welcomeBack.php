@@ -1,4 +1,5 @@
 <!-- Hans Li and David Xue -->
+<!-- Welcome back landing page -->
 <?php
 session_start();
 require_once "config.php"; 
@@ -17,6 +18,7 @@ include("riot-methods.php");
     <title>Tilt Tracker</title>
   </head>
 
+  <!-- Sets time message when page is loaded -->
   <body onload="setTimeMessage()">
     <header>
       <nav class="navbar navbar-expand-md bg-dark navbar-dark">

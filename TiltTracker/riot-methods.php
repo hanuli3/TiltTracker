@@ -3,6 +3,7 @@ include('php-riot-api.php');
 require_once "config.php";
 //testing classes
 //using double quotes seems to make all names work (see issue: https://github.com/kevinohashi/php-riot-api/issues/33)
+//Sets the summoner name cookie
 if(isset($_COOKIE["summoner"])) {
     $summoner_name = $_COOKIE["summoner"];
 }
@@ -14,6 +15,7 @@ else{
     header("location:login.php");
 }
 */
+//Sets tilt
 if( isset($_POST["settilt"]) ) {
     $summoner_name = $_COOKIE["summoner"];         
     $tilt = $_POST["settilt"];
@@ -22,26 +24,31 @@ if( isset($_POST["settilt"]) ) {
     header("location:home.php");
     }
 
+//Refreshes the summoner tilt
 if( isset($_GET["refresh"]) ) {
     updateTilt($_COOKIE["summoner"]);
 }
 
+//Adds friend
 if( isset($_POST["friend"]) ) {
     addFriend($_POST["friend"]);
 }
 
+//Deletes friend
 if( isset($_POST["deleteFriend"]) ) {
     deleteFriend($_POST["deleteFriend"]);
 }
 
+//Refreshes friends list
 if( isset($_GET["refreshfriends"]) ) {
     $farray = getFriendsArray($summoner_name);
     foreach ($farray as $friend){
-        echo "updating ".$friend;
+        //echo "updating ".$friend;
         updateTilt($friend);
     }
 }
 
+//Get tilt score of summoner
 function getTilt($summoner_name){
     if (!(in_summoners($summoner_name))){
         add_summoner($summoner_name);
@@ -55,17 +62,18 @@ function getTilt($summoner_name){
 
 }
 
+//Adds friend to friends list
 function addFriend($friend_name){
     $owner = $_COOKIE["summoner"];
     if(valid_summoner($friend_name)){
         $farray = getFriendsArray($owner);
         if (in_array($friend_name, $farray))
         {
-            echo "already added";
+            echo 'Friend is already added';
             return false;
         }
         else{
-            echo "added friend";
+            echo 'Added friend';
             $updatefriends = "";
             foreach ($farray as $friend){
                 $updatefriends = $updatefriends."-".$friend;
@@ -79,9 +87,13 @@ function addFriend($friend_name){
             return true;
         }
     }
-    return false;
+    else{
+        echo 'Invalid summoner name';
+        return false;
+    }
 }
 
+//Removes friend from friends list
 function deleteFriend($friend_name){
     $owner = $_COOKIE["summoner"];
         $farray = getFriendsArray($owner);
@@ -108,7 +120,7 @@ function deleteFriend($friend_name){
     return false;
 }
 
-
+//Gets friends list
 function getFriendsArray($summoner_name){
     if(valid_summoner($summoner_name)){
         $link = mysqli_connect(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
@@ -121,6 +133,7 @@ function getFriendsArray($summoner_name){
     return;
 }
 
+//Checks if name in summoners
 function in_summoners($summoner_name){
     if(valid_summoner($summoner_name)){
         $link = mysqli_connect(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
@@ -133,6 +146,7 @@ function in_summoners($summoner_name){
     return true;
 }
 
+//Adds summoner into data table
 function add_summoner($summoner_name){
     if(!(in_summoners($summoner_name))){
         $link = mysqli_connect(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
@@ -141,6 +155,8 @@ function add_summoner($summoner_name){
         $link->query($sql);
     }
 }
+
+//Checks for valid summoner name
 function valid_summoner($summoner_name){
     try
     {
@@ -154,6 +170,7 @@ function valid_summoner($summoner_name){
     }
 }
 
+//Gets last match time for that summoner
 function last_match_time($summoner_name){
     $link = mysqli_connect(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE);
     $sql = "SELECT lastgametime FROM summoners WHERE summoner='$summoner_name' ";
@@ -170,6 +187,7 @@ function last_match_time($summoner_name){
     return $lastmatchtime;
 }
 
+//Updates the tilt score based on match results
 function updateTilt($summoner){
     if(isset($_COOKIE["summoner"])) 
     {
@@ -276,7 +294,4 @@ function updateTilt($summoner){
         };
     }
 }
-
-    
-
 ?>
