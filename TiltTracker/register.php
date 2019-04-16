@@ -1,3 +1,40 @@
+<!-- Hans Li and David Xue -->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">  
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="styles/main.css">
+    <script src="myScripts.js"></script>
+    <title>Tilt Tracker</title>
+   </head>
+
+  <body onload="setTimeMessage()">
+    <header>
+      <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+        <a class="navbar-brand" href="home.php">Tilt Tracker</a>    
+        
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+          <span class="navbar-toggler-icon"></span  >
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-end" id="collapsibleNavbar">   
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="about.php">About</a>
+            </li>                        
+            <li class="nav-item"> 
+              <a class="nav-link" href="friends.php">Friends</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="login.php">Login</a>
+            </li>            
+          </ul>
+        </div>  
+      </nav>
+    </header>
 <?php
 // Include config file
 require_once "config.php";
@@ -131,20 +168,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     mysqli_close($link);
 }
 ?>
- 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Sign Up</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
-    <style type="text/css">
-        body{ font: 14px sans-serif; }
-        .wrapper{ width: 350px; padding: 20px; }
-    </style>
-</head>
-<body>
-    <div class="wrapper">
+    <div class="container">
         <h2>Sign Up</h2>
         <p>Please fill this form to create an account.</p>
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">

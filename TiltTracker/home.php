@@ -11,15 +11,12 @@ include("riot-methods.php");
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    
     <meta http-equiv="X-UA-Compatible" content="IE=edge">  
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" />
     <link rel="stylesheet" href="styles/main.css">
-
     <script src="myScripts.js"></script>
     <title>Tilt Tracker</title>
-        
   </head>
 
   <body onload="updateMessage(<?php $sql = "SELECT tilt FROM summoners WHERE summoner='$summoner_name'"; $result = $link->query($sql); echo $result->fetch_assoc()["tilt"];?>)">
