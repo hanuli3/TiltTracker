@@ -1,4 +1,5 @@
 <?php
+//David Xue -wrote the methods, Hans Li commented.
 include('php-riot-api.php');
 require_once "config.php";
 //testing classes
