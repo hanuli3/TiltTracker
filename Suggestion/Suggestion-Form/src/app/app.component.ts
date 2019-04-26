@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Order } from './order';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Suggestion-Form';
+  title = 'Welcome to CS4640 - inclass12';
+  drinks = ['Coffee', 'Tea', 'Milk'];
+  orderModel = new Order('someone', 'someone@uva.edu', 9991234567, '', '', true);
 }
