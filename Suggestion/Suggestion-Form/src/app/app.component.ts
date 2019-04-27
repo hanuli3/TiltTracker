@@ -7,7 +7,7 @@ import { Order } from './order';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'CS4640';
+  title = 'CS4640 Suggestion Form';
   drinks = ['Coffee', 'Tea', 'Milk'];
   orderModel = new Order('someone', 'someone@uva.edu', 9991234567, '', '', true);
 }
