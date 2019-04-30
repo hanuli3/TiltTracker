@@ -30,7 +30,7 @@ class riotapi
 	const API_URL_MATCH_4 = 'https://{platform}.api.riotgames.com/lol/match/v4/';
 	const API_URL_LEAGUE_4 = 'https://{platform}.api.riotgames.com/lol/league/v4/';
 	const API_URL_SUMMONER_4 = 'https://{platform}.api.riotgames.com/lol/summoner/v4/';
-	const API_KEY = 'RGAPI-b2533a10-35a7-477d-9ea1-b245d445cc98';
+	const API_KEY = 'RGAPI-14ea43b9-83e8-4d26-b7da-00bfb49e241b';
 	// Rate limit for 10 minutes
 	const LONG_LIMIT_INTERVAL = 600;
 	const RATE_LIMIT_LONG = 500;
