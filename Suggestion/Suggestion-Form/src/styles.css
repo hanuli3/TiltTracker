@@ -1,1 +1,33 @@
 /* You can add global styles to this file, and also import other style files */
+
+.bold-text {
+  font-weight: bold;
+}
+
+.green {
+  color: green;
+}
+
+.blue {
+  color: blue;
+}
+
+.red {
+  color: red;
+}
+
+.show-class {
+  visibility: visible;
+}
+
+.hide-class {
+  visibility: hidden;
+}
+
+.italic-text {
+  font-style: italic;
+}
+
+.small-text {
+  font-size: 10px;
+}

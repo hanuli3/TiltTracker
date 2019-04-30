@@ -1,6 +1,6 @@
-<!--The content below is only a placeholder and can be replaced.-->
+<!-- Author David Xue-->
 <div class="container">
-  <h1>
+  <h1 [ngStyle]="{'color': 'blue', 'font-weight': 'bold'}">
     Welcome to {{ title }}!
   </h1>
 
@@ -35,7 +35,7 @@
  
   <div class="form-group">
       <label>Type of Question? </label>
-    <select [(ngModel)]="orderModel.drink" class="custom-select" name="drink_option">
+    <select [(ngModel)]="orderModel.drink" class="custom-select" name="drink_option" >
       <option *ngFor="let drink of drinks">{{drink}} </option>
     </select>
   </div>
@@ -43,19 +43,20 @@
   <div class="form-check mb-3">
     <input [(ngModel)]="orderModel.sendText" class="form-check-input" type="checkbox" ng-model="myVar" ng-init="myVar = false" name = "sendtxt">
     <label class="form-check-label">Allow us to reply to you? </label>
-    <div ng-if="myVar">
+    <div ng-if="myVar" [ngClass]="['blue']">
     Thank you! We'll be in touch soon!
     </div>
   </div>
 
     <button class="btn btn-primary" (click)="senddata(orderForm.value)">Submit Suggestion!</button>
 
-
 </form> 
+
+
    <br>
   <div>
     <button onclick="window.location.href='http://localhost/Tilttracker/about.php'" style="text-align:center" >Return to the site! </button>
   </div>
-  </div>
+ </div>
 
 
