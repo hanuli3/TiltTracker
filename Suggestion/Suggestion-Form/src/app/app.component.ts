@@ -18,7 +18,6 @@ export class AppComponent {
   constructor(private http: HttpClient) { }
    
   senddata(data) {
-     console.log("hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
      console.log(data);
 
      let params = JSON.stringify(data);
