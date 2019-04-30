@@ -9,7 +9,7 @@ import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http'
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'CS4640 Suggestion Form';
+  title = 'TiltTracker Suggestion Form';
   drinks = ['General', 'Technical', 'Account'];
   orderModel = new Order('', '', null, '', '', false);
 
