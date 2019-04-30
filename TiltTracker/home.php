@@ -75,7 +75,7 @@ function loadXMLDoc() {
       this.responseText;
     }
   };
-  xmlhttp.open("GET", "advice.txt", true);
+  xmlhttp.open("GET", "advice.php", true);
   xmlhttp.send();
 }
 </script>

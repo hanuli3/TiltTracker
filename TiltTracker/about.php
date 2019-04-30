@@ -54,8 +54,10 @@
       <h1>What is this Website?</h1><br>
 
       <p>The purpose of our website is to prevent users or the user’s friends from entering games if their tilt level is too high. Tilt is synonymous with anger, rage, not thinking, and poor game performance that is not only bad for the tilted players, but also those who play with them. In a game where there is on average a 50% chance for either side to win, the chance of player being on a losing streak is not rare. Tilted players often force themselves to continue playing until they’re totally exhausted or barely manage win with an uncalm mind. Our goal is to create a clear indicator when a player should take break before they become exhausted.</p>
-    </div>
 
+      <a target="_blank" href="http://localhost:4200" style="text-align:center">Leave a suggestion!</a>
+      
+    </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
   </body>

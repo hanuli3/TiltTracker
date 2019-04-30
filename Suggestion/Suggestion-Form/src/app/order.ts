@@ -3,8 +3,8 @@ constructor(
       public name: string,
       public email: string,
       public phone: number,
+      public suggestion: string,
       public drink: string,
-      public tempPreference: string,
       public sendText: boolean,
    ){}
 }

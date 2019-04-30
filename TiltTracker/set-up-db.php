@@ -138,6 +138,22 @@ function createTable()
    $statement->execute();   
    $statement->closeCursor();
    echo " created";
+
+   $query = CREATE TABLE suggestions (
+      id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+      name VARCHAR(50),
+      phone INT(10) NOT NULL,
+      email VARCHAR(50),
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      suggestion LONGTEXT,
+      type VARCHAR(12),
+      reply BOOLEAN
+   );
+   
+   $statement = $db->prepare($query);
+   $statement->execute();   
+   $statement->closeCursor();
+   echo " created";
 }
 ?>
 
