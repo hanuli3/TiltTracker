@@ -25,7 +25,7 @@ export class AppComponent {
    this.http.get('http://localhost/TiltTracker/ngphp-get.php?str='+params)
    .subscribe((data) => {
       console.log('Got data from backend', data);
-      this.responsedata = data;
+      this.responsedata = data.toString();
    }, (error) => {
       console.log('Error', error);
    })
